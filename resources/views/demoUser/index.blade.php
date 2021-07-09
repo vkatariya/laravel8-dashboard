@@ -1,14 +1,17 @@
+
 @extends('../layout/' . $layout)
 
 @section('subhead')
-    <title>Programs List</title>
+    <title>DemoUser List</title>
 @endsection
 
 @section('subcontent')
-    <h2 class="intro-y text-lg font-medium mt-10">Program List </h2>
+    {{-- <h2 class="intro-y text-lg font-medium mt-10">User List </h2> --}}
+
+
     <div class="grid grid-cols-12 gap-6 mt-5">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-            <button class="btn btn-primary shadow-md mr-2"><a  href="{{ route('program-create') }}">Add New Program</a></button>
+            <button class="btn btn-primary shadow-md mr-2"><a  href="{{ route('demouser.create') }}">Add Demo User</a></button>
             <div class="dropdown">
                 <button class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300" aria-expanded="false">
                     <span class="w-5 h-5 flex items-center justify-center">
@@ -29,65 +32,60 @@
                     </div>
                 </div>
             </div>
-            <div class="hidden md:block mx-auto text-gray-600">Showing 1 to 10 of 150 entries</div>
+            {{-- <div class="hidden md:block mx-auto text-gray-600">Showing 1 to 10 of 150 entries</div> --}}
             <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                 <div class="w-56 relative text-gray-700 dark:text-gray-300">
                     <input type="text" class="form-control w-56 box pr-10 placeholder-theme-13" placeholder="Search...">
                     <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
                 </div>
+                @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+                @endif
             </div>
         </div>
         <!-- BEGIN: Data List -->
+
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <div class="push-top">
-  @if(session()->get('success'))
-    <div class="alert alert-success">
-      {{ session()->get('success') }}
-    </div><br />
-  @endif
+
             <table class="table table-report -mt-2">
                 <thead>
                     <tr><th class="whitespace-nowrap">SN.</th>
-                        <th class="whitespace-nowrap">IMAGES</th>
-                        <th class="whitespace-nowrap"> TITLE</th>
-                        <th class="whitespace-nowrap">SUB-TITLE</th>
-                        <th class="whitespace-nowrap">PRICE</th>
+                        <th class="whitespace-nowrap">Name </th>
+                        <th class="whitespace-nowrap"> Email</th>
+                        <th class="whitespace-nowrap">Mobile</th>
+
+                        {{-- <th class="whitespace-nowrap">PRICE</th>
                         <th class="text-center whitespace-nowrap">TYPE</th>
-                        <th class="text-center whitespace-nowrap">FOR</th>
+                        <th class="text-center whitespace-nowrap">FOR</th>--}}
                         <th class="text-center whitespace-nowrap">ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($programs as $program)
+
+                    @foreach ($demouser as $demouser)
 
                         <tr class="intro-x">
-                        <td class="text-center">{{ $program->id }}</td>
-                           <td class="w-40">
-                                <div class="flex">
-                                     <div class="w-10 h-10 image-fit zoom-in">
-                                        <img alt="" class="tooltip rounded-full" src="{{ asset('dist/images/'.$program->image) }}" title="">
-                                    </div>
-                              {{--  <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                                        <img alt="" class="tooltip rounded-full" src="{{ asset('dist/images/' . $program['images'][1]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
-                                    </div>
-                                    <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                                        <img alt="" class="tooltip rounded-full" src="{{ asset('dist/images/' . $program['images'][2]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
-                                    </div> --}}
-                                </div>
-                            </td>
+                        <td class="text-center">{{ $demouser->id }}</td>
+
                          <td>
-                                <a href="" class="font-medium">{{ $program->program_title }}</a>
-                                {{-- <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ $program->program_title }}</div> --}}
+                                <a href="" class="font-medium">{{ $demouser->username }}</a>
+                                 <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ $demouser->username }}</div>
                             </td>
                             <td>
-                                <a href="" class="font-medium ">{{ $program->subtitle }}</a>
-                                {{-- <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ $program->subtitle_title }}</div> --}}
+                                {{-- <a href="" class="font-medium ">{{ $demouser->email }}</a> --}}
+                                <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ $demouser->email }}</div>
+                            </td>
+                            <td>
+                                {{-- <a href="" class="font-medium ">{{ $demouser->email }}</a> --}}
+                                <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ $demouser->mobile }}</div>
                             </td>
 
-                           <td class="text-center">{{ $program->price }}</td>
+                       {{--      <td class="text-center">{{ $program->price }}</td>
                            <td class="text-center">{{ $program->category }}</td>
                            <td class="text-center">{{ $program->category }}</td>
-                           {{--    <td class="w-40">
+                           <td class="w-40">
                                 <div class="flex items-center justify-center {{ $program['true_false'][0] ? 'text-theme-9' : 'text-theme-6' }}">
                                     <i data-feather="check-square" class="w-4 h-4 mr-2"></i> {{ $program['true_false'][0] ? 'Active' : 'Inactive' }}
                                 </div>
@@ -102,7 +100,7 @@
                                     <a class="flex items-center mr-3" href="javascript:;">
                                         <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
                                     </a>
-                                    <a class="flex items-center text-theme-6" href="javascript:;" data-toggle="modal" data-target="#delete-confirmation-modal">
+                                    <a class="flex items-center id="id" text-theme-6" href="#" data-attr="{{ route('delete', $demouser->id) }}" data-toggle="modal" data-target="#delete-confirmation-modal">
                                         <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
                                     </a>
                                 </div>
@@ -165,19 +163,30 @@
     <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
+                <form action="{{ route('demouser.destroy', $demouser->id) }}" method="post">
+                    @csrf
+                    @method('DELETE')
                 <div class="modal-body p-0">
                     <div class="p-5 text-center">
                         <i data-feather="x-circle" class="w-16 h-16 text-theme-6 mx-auto mt-3"></i>
                         <div class="text-3xl mt-5">Are you sure?</div>
-                        <div class="text-gray-600 mt-2">Do you really want to delete these records? <br>This process cannot be undone.</div>
+                        <div class="text-gray-600 mt-2">Do you really want to delete {{$demouser->username}}? <br>This process cannot be undone.</div>
                     </div>
                     <div class="px-5 pb-8 text-center">
                         <button type="button" data-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
                         <button type="button" class="btn btn-danger w-24">Delete</button>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
     <!-- END: Delete Confirmation Modal -->
 @endsection
+<script  src=//code.jquery.com/jquery-3.5.1.slim.min.js integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin=anonymous></script>
+<script>
+    $('.addAttr').click(function() {
+    var id = $(this).data('id');
+    $('#id').val(id);
+    } );
+ </script>

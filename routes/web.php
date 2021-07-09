@@ -5,6 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProgramsController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\DemouserController;
+
+use App\Http\livewire\Post;
+use App\Http\livewire\Category;
 
 use App\Http\Controllers\DarkModeController;
 
@@ -18,6 +22,9 @@ use App\Http\Controllers\DarkModeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/post',Post::class);
+Route::get('/category',Category::class);
+
 
 Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
 
@@ -34,11 +41,21 @@ Route::middleware('auth')->group(function() {
     Route::resource('events', EventsController::class);
     Route::post('create', [EventsController::class, 'store']);
 
+   // Route::get('demouser-list-all', [DemouserController::class, 'index'])->name('demouser-list');
+    // Route::get('demouser', [DemouserController::class, 'create'])->name('demo-user-create');
+    // Route::post('demouser-store', [DemouserController::class, 'store'])->name('demouser-store');
+
+    Route::resource('demouser', DemouserController::class);
+    Route::get('demouser/delete/{id}', [DemouserController::class, 'delete'])->name('delete');
+
+
+
     Route::get('marketing', [PageController::class, 'marketing'])->name('marketing');
     Route::get('services', [PageController::class, 'ourServices'])->name('service');
     Route::get('package', [PageController::class, 'package'])->name('package');
     Route::get('assign-package', [PageController::class, 'assignPackage'])->name('assign-package');
     Route::get('problems', [PageController::class, 'problems'])->name('problems');
+
 
 
     Route::get('programs', [ProgramsController::class, 'index'])->name('programs');

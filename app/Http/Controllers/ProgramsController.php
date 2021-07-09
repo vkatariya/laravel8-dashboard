@@ -38,26 +38,23 @@ class ProgramsController extends Controller
     {
          $request->validate([
             'program_title' => 'required|max:255'
-
-
-        ]);
+         ]);
         //dd($request->all());
         $storeData = $request->all();
 
        // dd($storeData);
         $program = Programs::create($storeData);
 
-        return redirect('programs-list')->with('completed', 'Programs has been saved!');
+        //return redirect('/programs');
+          return redirect()->route('programs')
+                            ->with('success','programs created successfully.');
+       // return redirect('programs-list')->with('completed', 'Programs has been saved!');
 
-        //     $request->validate([
-        //         'program_name' => 'required',
 
         //         'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         //     ]);
 
-        //     $input = $request->all();
-        //  //var_dump($input);
-        //  //exit();
+
 
         //     if ($image = $request->file('image')) {
         //         $destinationPath = 'asset/dist/images/';
